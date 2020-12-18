@@ -8,5 +8,7 @@ public class Main {
         for (int i = 0; i < deck.getDeck().length; i++) {
             System.out.println(deck.getDeck()[i].toString());
         }
+
+
     }
 }

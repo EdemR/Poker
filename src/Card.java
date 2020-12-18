@@ -10,15 +10,17 @@ public class Card {
 
     @Override
     public String toString() {
-        String temp = this.value == 11 ? "J" : this.value == 12 ? "Q" : this.value == 13 ? "K" : this.value == 14 ? "A" : String.valueOf(this.value);
+        String tempNumber = this.value == 11 ? "J" : this.value == 12 ? "Q" : this.value == 13 ? "K" : this.value == 14 ? "A" : String.valueOf(this.value);
+
+        String tempColor = this.color.equals("Heart") ? "\u2665" : this.color.equals("Clubs") ? "\u2663" : this.color.equals("Spades") ? "\u2660" : "\u2666";
         return "  -------------\n" +
-                "  | " + temp + "         |\n" +
+                "  | " + (this.value != 10 ? tempNumber + " " : tempNumber) + "        |\n" +
                 "  |           |\n" +
                 "  |           |\n" +
-                "  |   " + this.color + "   |\n" +
+                "  |     " + tempColor + "     |\n" +
                 "  |           |\n" +
                 "  |           |\n" +
-                "  |         " + temp + " |\n" +
+                "  |        " + (this.value != 10 ? " " + tempNumber : tempNumber) + " |\n" +
                 "  -------------";
     }
 }

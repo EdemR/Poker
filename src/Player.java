@@ -1,9 +1,13 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player {
     private String name;
-    private int hand;
-    private int wallet = 10;
+    private List<Card> hand;
+    private int wallet = 50000;
 
     public Player(String name) {
+        hand = new ArrayList<>();
         this.name = name;
     }
 
@@ -11,15 +15,20 @@ public class Player {
         return name;
     }
 
-    public int getHand() {
-        return hand;
+    public Card getHand(int index) {
+        return hand.get(index);
     }
 
-    public void setHand(int hand) {
-        this.hand = hand;
+    public void addCard(Card card) {
+        this.hand.add(card);
     }
 
     public int getWallet() {
         return wallet;
     }
+
+    public void setWallet(int wallet) {
+        this.wallet = wallet;
+    }
+
 }

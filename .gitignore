@@ -1,6 +1,6 @@
 # Java classes
 *.class
 
-# IntelliJ
+.idea/
 out/
 target/

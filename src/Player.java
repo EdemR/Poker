@@ -31,15 +31,15 @@ public class Player {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
-    public Card getCardInHandByIndex(int index) {
-        return cardsInHand.get(index);
+    public List<Card> getCardsInHand() {
+        return this.cardsInHand;
     }
 
     public int getWallet() {
-        return wallet;
+        return this.wallet;
     }
 
     public void changeWallet(String operator, int money) {
@@ -51,18 +51,18 @@ public class Player {
     }
 
     public int getMoneyInPot() {
-        return moneyInPot;
+        return this.moneyInPot;
     }
 
-    public void setMoneyInPot(int moneyInPot) {
-        this.moneyInPot = moneyInPot;
+    public void addMoneyPot(int moneyInPot) {
+        this.moneyInPot += moneyInPot;
     }
 
     public boolean isActive() {
-        return isActive;
+        return this.isActive;
     }
 
     public void setActive(boolean active) {
-        isActive = active;
+        this.isActive = active;
     }
 }

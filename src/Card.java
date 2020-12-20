@@ -1,26 +1,33 @@
 public class Card {
     final static String[] COLORS = new String[]{"Heart", "Clubs", "Diamond", "Spades"};
+    private final String[] cardASCII;
     private String color;
     private int value;
 
     public Card(String color, int value) {
         this.color = color;
         this.value = value;
+        cardASCII = new String[9];
+        storeCardInArray();
     }
 
-    @Override
-    public String toString() {
-        String tempNumber = this.value == 11 ? "J" : this.value == 12 ? "Q" : this.value == 13 ? "K" : this.value == 14 ? "A" : String.valueOf(this.value);
+    private void storeCardInArray() {
+        String cardValue = this.value == 11 ? "J" : this.value == 12 ? "Q" : this.value == 13 ? "K" : this.value == 14 ? "A" : String.valueOf(this.value);
+        String cardColor = color.equals("Heart") ? "♥" : color.equals("Clubs") ? "♣" : color.equals("Spades") ? "♠" : "♦";
+//        String cardColor = this.color.equals("Heart") ? "H" : this.color.equals("Clubs") ? "C" : this.color.equals("Spades") ? "S" : "D";
+        cardASCII[0] = "┌───────────┐";
+        cardASCII[1] = "│ " + (this.value != 10 ? cardValue + " " : cardValue) + "        │";
+        cardASCII[2] = "│           │";
+        cardASCII[3] = "│           │";
+        cardASCII[4] = "│     " + cardColor + "     │";
+        cardASCII[5] = "│           │";
+        cardASCII[6] = "│           │";
+        cardASCII[7] = "│        " + (this.value != 10 ? " " + cardValue : cardValue) + " │";
+        cardASCII[8] = "└───────────┘";
+    }
 
-        String tempColor = this.color.equals("Heart") ? "\u2665" : this.color.equals("Clubs") ? "\u2666" : this.color.equals("Spades") ? "\u2664" : "\u2667";
-        return "  -------------\n" +
-                "  | " + (this.value != 10 ? tempNumber + " " : tempNumber) + "        |\n" +
-                "  |           |\n" +
-                "  |           |\n" +
-                "  |     " + tempColor + "     |\n" +
-                "  |           |\n" +
-                "  |           |\n" +
-                "  |        " + (this.value != 10 ? " " + tempNumber : tempNumber) + " |\n" +
-                "  -------------";
+    public String[] getCardASCII() {
+        return cardASCII;
+
     }
 }

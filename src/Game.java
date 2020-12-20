@@ -9,22 +9,104 @@ public class Game {
     private Player actualPlayer;
     private final int smallBlind;
     private final int bigBlind;
+    private int totalMoneyToPlay;
+    private Player LastPlayer;
+    private boolean handIsOver;
 
     public Game() {
         this.playerList = new ArrayList<>();
         this.smallBlind = 500;
         this.bigBlind = 1000;
+        this.totalMoneyToPlay = this.bigBlind;
+        this.handIsOver = false;
     }
 
     public void play() {
+        playRound();
+    }
+
+    public void playRound() {
         prepareGame();
+        while (!handIsOver) {
+            nextPlayerDecide();
+        }
         showHands();
         showMoneyOfPlayers();
     }
 
+    public void nextPlayerDecide() {
+        getNextPlayerInOrder();
+        if(this.actualPlayer.getMoneyInPot() != this.totalMoneyToPlay) {
+            System.out.println(this.actualPlayer.getName() + ":");
+            while (true) {
+                System.out.println("Please choose an option:\n1: Raise\n2: Call (" + (this.totalMoneyToPlay - this.actualPlayer.getMoneyInPot()) + "Ft)\n3: Fold\n4: Check(Not Available Now)");
+                String input = new Scanner(System.in).nextLine();
+                if (input.equals("1") || input.equals("2") || input.equals("3")) {
+                    moveByInput(input);
+                    break;
+                }
+            }
+        } else {
+            while (true) {
+                System.out.println("Please choose an option:\n1: Raise\n2: Call(Not Available Now)\n3: Fold(Not Available Now)\n4: Check");
+                String input = new Scanner(System.in).nextLine();
+                if (input.equals("1") || input.equals("4")) {
+                    moveByInput(input);
+                    break;
+                }
+            }
+        }
+        showMoneyOfPlayers();
+    }
+
+    public void moveByInput(String input) {
+        switch (input) {
+            case "3":
+                this.actualPlayer.setActive(false);
+                break;
+            case "2":
+                this.actualPlayer.changeWallet("-",(this.totalMoneyToPlay - this.actualPlayer.getMoneyInPot()));
+                this.moneyPool += (this.totalMoneyToPlay - this.actualPlayer.getMoneyInPot());
+                break;
+            case "1":
+                System.out.println("Call: " + (this.totalMoneyToPlay - this.actualPlayer.getMoneyInPot()) + "Ft");
+                this.actualPlayer.changeWallet("-",(this.totalMoneyToPlay - this.actualPlayer.getMoneyInPot()));
+                this.moneyPool += (this.totalMoneyToPlay - this.actualPlayer.getMoneyInPot());
+                int raiseAmount = askPlayerToRaise();
+                this.actualPlayer.changeWallet("-",(raiseAmount));
+                this.moneyPool += raiseAmount;
+                break;
+            default:
+                System.out.println(this.actualPlayer.getName() + "IS CHECKED!");
+        }
+    }
+
+    private int askPlayerToRaise() {
+        while (true) {
+            System.out.println("How much you want to raise?");
+            System.out.println("Your Wallet is: " + this.actualPlayer.getWallet() + "Ft");
+            int input = isNumber(new Scanner(System.in).nextLine());
+            if (input > 0 && input < this.actualPlayer.getWallet()) {
+                return input;
+            }
+        }
+    }
+
+    private int isNumber(String input) {
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException ex) {
+            return -1;
+        }
+    }
+
     public void showMoneyOfPlayers() {
-        System.out.println("Big blind(" + this.bigBlind + "Ft) from " + this.firstPlayer.getName());
+        this.actualPlayer = this.firstPlayer;
+        System.out.println("The dealer is " + this.actualPlayer.getName());
+        getNextPlayerInOrder();
         System.out.println("Small blind(" + this.smallBlind +"Ft) from " + this.actualPlayer.getName());
+        getNextPlayerInOrder();
+        System.out.println("Big blind(" + this.bigBlind + "Ft) from " + this.actualPlayer.getName());
         System.out.println("Money in the pot = " + this.moneyPool + "Ft");
         for (int i = 0; i < playerList.size(); i++) {
             System.out.println(playerList.get(i).getName() + "'s wallet = " + playerList.get(i).getWallet() + "Ft");
@@ -43,9 +125,12 @@ public class Game {
             }
         }
 
-        this.firstPlayer.changeWallet("-", this.bigBlind);
         getNextPlayerInOrder();
         this.actualPlayer.changeWallet("-", this.smallBlind);
+        this.actualPlayer.setMoneyInPot(this.smallBlind);
+        getNextPlayerInOrder();
+        this.actualPlayer.changeWallet("-", this.bigBlind);
+        this.actualPlayer.setMoneyInPot(this.bigBlind);
         this.moneyPool += this.bigBlind + this.smallBlind;
     }
 
@@ -75,3 +160,14 @@ public class Game {
         }
     }
 }
+
+
+/*  High Card (A)
+*   Pair
+*   Two Pairs
+*   Three of a Kind
+*   Straight
+*   Flush
+*   Four of a Kind
+*   Straight Flush
+*   Royal Flush */

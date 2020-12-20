@@ -5,11 +5,14 @@ public class Player {
     private String name;
     private List<Card> cardsInHand;
     private int wallet;
+    private int moneyInPot;
+    private boolean isActive;
 
     public Player(String name, int wallet) {
         this.cardsInHand = new ArrayList<>();
         this.name = name;
         this.wallet = wallet;
+        this.isActive = true;
     }
 
     public void addCard(Card card) {
@@ -45,5 +48,21 @@ public class Player {
         } else if (operator.equalsIgnoreCase("-")) {
             this.wallet -= money;
         }
+    }
+
+    public int getMoneyInPot() {
+        return moneyInPot;
+    }
+
+    public void setMoneyInPot(int moneyInPot) {
+        this.moneyInPot = moneyInPot;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

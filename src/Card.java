@@ -13,13 +13,13 @@ public class Card {
 
     private void storeCardInArray() {
         String cardValue = this.value == 11 ? "J" : this.value == 12 ? "Q" : this.value == 13 ? "K" : this.value == 14 ? "A" : String.valueOf(this.value);
-        String cardColor = color.equals("Heart") ? "♥" : color.equals("Clubs") ? "♣" : color.equals("Spades") ? "♠" : "♦";
-//        String cardColor = this.color.equals("Heart") ? "H" : this.color.equals("Clubs") ? "C" : this.color.equals("Spades") ? "S" : "D";
+//        String cardColor = color.equals("Heart") ? "♥" : color.equals("Clubs") ? "♣" : color.equals("Spades") ? "♠" : "♦";
+        String cardColor = this.color.equals("Heart") ? " Heart " : this.color.equals("Clubs") ? " Clubs " : this.color.equals("Spades") ? " Spades" : "Diamond";
         cardASCII[0] = "┌───────────┐";
         cardASCII[1] = "│ " + (this.value != 10 ? cardValue + " " : cardValue) + "        │";
         cardASCII[2] = "│           │";
         cardASCII[3] = "│           │";
-        cardASCII[4] = "│     " + cardColor + "     │";
+        cardASCII[4] = "│  " + cardColor + "  │";
         cardASCII[5] = "│           │";
         cardASCII[6] = "│           │";
         cardASCII[7] = "│        " + (this.value != 10 ? " " + cardValue : cardValue) + " │";
@@ -29,5 +29,17 @@ public class Card {
     public String[] getCardASCII() {
         return cardASCII;
 
+    }
+
+    public String valueToString() {
+        return this.value == 11 ? "J" : this.value == 12 ? "Q" : this.value == 13 ? "K" : this.value == 14 ? "A" : String.valueOf(this.value);
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public int getValue() {
+        return value;
     }
 }
